@@ -1,30 +1,42 @@
 <template>
-    <div class="album_content">
-        <div>{{ album.title ? album.title : album.name }}</div>
-        <div>{{ album.original_title ? album.original_title : album.original_name }}</div>
-        <div>{{ album.original_language }}</div>
-        <div>{{ album.vote_average }}</div>
+    <div class="singleItem_content">
+        <div>{{ singleItem.title ? singleItem.title : singleItem.name }}</div>
+        <div>{{ singleItem.original_title ? singleItem.original_title : singleItem.original_name }}</div>
+        <div>{{ singleItem.original_language }}</div>
+        <div>{{ singleItem.vote_average }}</div>
+        <img :src="!singleItem.poster_path ? 'https://eiflixnob.live/assets/general/images/no_poster.jpg' : imageItem" 
+            :alt="singleItem.title ? singleItem.title : singleItem.name">
     </div>
 </template>
 
 <script>
+
 export default {
     name: 'MainCard',
     props: {
-        album: Object
+        singleItem: Object
     },
     data() {
         return {
-
+            urlImg: 'https://image.tmdb.org/t/p/w342',
+        }
+    },
+    computed: {
+        imageItem() {
+            return this.urlImg + this.singleItem.poster_path;
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.album_content {
+.singleItem_content {
     background-color: lightgreen;
     padding: 10px;
     margin: 10px;
+
+    img {
+        width: 342px;
+    }
 }
 </style>
