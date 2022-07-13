@@ -9,14 +9,16 @@
             :src="getFlagImg" :alt="singleItem.original_language">
 
         <div v-else>{{ singleItem.original_language }}</div>
-        
+
         <div>{{ singleItem.vote_average }}</div>
 
         <img class="poster_item"
             :src="!singleItem.poster_path ? 'https://eiflixnob.live/assets/general/images/no_poster.jpg' : imageItem" 
             :alt="singleItem.title ? singleItem.title : singleItem.name">
         
-        <!-- <font-awesome-icon icon="fa-solid fa-star" /> -->
+        <div class="star_icon">
+            <font-awesome-icon v-for="(star,index) in 5" :key="index" :icon="getStarsStyle(star)" />
+        </div>
         
     </div>
 </template>
@@ -59,7 +61,16 @@ export default {
         }
     },
     methods: {
-        
+        transformVote() {
+            return Math.ceil((this.singleItem.vote_average * 5) / 10);
+        },
+        getStarsStyle(starNumber) {
+            if(starNumber <= this.transformVote()) {
+                return 'fa-solid fa-star';
+            } else {
+                return 'fa-regular fa-star'
+            }
+        }
     }
 }
 </script>
@@ -76,6 +87,10 @@ export default {
 
     .poster_item {
         width: 342px;
+    }
+
+    .star_icon {
+
     }
 }
 </style>
