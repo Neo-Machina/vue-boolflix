@@ -1,7 +1,7 @@
 <template>
     <header>
-        <input v-model="textMovie" @keyup.enter="$emit('performSearch', textMovie)" type="text">
-        <button @click="$emit('performSearch', textMovie)">Cliccami</button>
+        <input v-model="textMovie" @keyup.enter="$emit('performSearch', textMovie)" type="text" placeholder="Inserisci nome del film o serie TV">
+        <button @click="$emit('performSearch', textMovie)">Click</button>
     </header>
 </template>
 
