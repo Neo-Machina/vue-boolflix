@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="album_content">
         <div>{{ album.title }}</div>
         <div>{{ album.original_title }}</div>
         <div>{{ album.original_language }}</div>
@@ -21,6 +21,10 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-
+<style lang="scss" scoped>
+.album_content {
+    background-color: lightgreen;
+    padding: 10px;
+    margin: 10px;
+}
 </style>

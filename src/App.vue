@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <HeaderComponent :moviesArray="moviesList" @performSearch="startSearch"/>
+    <HeaderComponent @performSearch="startSearch"/>
 
     <main>
-      <MoviesList :singleAlbum="albumToSearch" @moviesReady="getAlbumArray"/>
+      <MoviesList :moviesList="moviesArray"/>
     </main>
   </div>
 </template>
@@ -12,7 +12,7 @@
 import HeaderComponent from './components/HeaderComponent.vue';
 import MoviesList from './components/MoviesList.vue';
 
-
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -22,17 +22,41 @@ export default {
   },
   data() {
     return {
-      albumToSearch: '',
-      moviesList: []
+      searchText: '',
+      moviesArray: [],
+      url:'https://api.themoviedb.org/3/search/movie?api_key=859e5e282c5287690662bd43296fa841&query='
     }
   },
   methods: {
-    getAlbumArray(allMovies) {
-      this.moviesList = allMovies;
-    },  
+    // getAlbumArray(allMovies) {
+    //   this.moviesList = allMovies;
+    // },  
     startSearch(textToSearch) {
-      this.albumToSearch = textToSearch;
-    }
+      this.searchText = textToSearch;
+      if(this.searchText !== '') {
+        this.getMovies();
+      }
+    },
+    getMovies() {
+      let textMovie = this.searchText.replaceAll(' ', '+');
+
+      let url = this.url + textMovie;
+
+      axios.get(url)
+      .then((results) => {
+        this.moviesArray = results.data.results;
+
+        this.moviesArray.forEach((movie) => {
+            if(!this.moviesArray.includes(movie)) {
+                this.moviesArray.push(movie);
+            }
+        });
+      })
+
+      .catch((err) => {
+        console.log('Error', err);
+      });
+    },
   }
 }
 </script>
