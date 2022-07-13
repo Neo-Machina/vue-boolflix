@@ -1,14 +1,17 @@
 <template>
     <div>
-
+        <div>{{ album.title }}</div>
+        <div>{{ album.original_title }}</div>
+        <div>{{ album.original_language }}</div>
+        <div>{{ album.vote_average }}</div>
     </div>
 </template>
 
 <script>
 export default {
     name: 'MovieCard',
-    components: {
-
+    props: {
+        album: Object
     },
     data() {
         return {
