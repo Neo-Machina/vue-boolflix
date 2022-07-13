@@ -3,14 +3,15 @@
     <HeaderComponent @performSearch="startSearch"/>
 
     <main>
-      <MoviesList :moviesList="moviesArray"/>
+      <MainList :moviesList="moviesArray"/>
+      <MainList :moviesList="tvSeries" />
     </main>
   </div>
 </template>
 
 <script>
 import HeaderComponent from './components/HeaderComponent.vue';
-import MoviesList from './components/MoviesList.vue';
+import MainList from './components/MainList.vue';
 
 import axios from 'axios';
 
@@ -18,23 +19,24 @@ export default {
   name: 'App',
   components: {
    HeaderComponent,
-   MoviesList
+   MainList
   },
   data() {
     return {
       searchText: '',
       moviesArray: [],
-      url:'https://api.themoviedb.org/3/search/movie?api_key=859e5e282c5287690662bd43296fa841&query='
+      tvSeries: [],
+      url: 'https://api.themoviedb.org/3/search/movie?api_key=859e5e282c5287690662bd43296fa841&query=',
+      urlTvSeries: 'https://api.themoviedb.org/3/search/tv?api_key=859e5e282c5287690662bd43296fa841&query='
     }
   },
   methods: {
-    // getAlbumArray(allMovies) {
-    //   this.moviesList = allMovies;
-    // },  
     startSearch(textToSearch) {
       this.searchText = textToSearch;
+
       if(this.searchText !== '') {
         this.getMovies();
+        this.getTvSeries();
       }
     },
     getMovies() {
@@ -45,18 +47,22 @@ export default {
       axios.get(url)
       .then((results) => {
         this.moviesArray = results.data.results;
-
-        this.moviesArray.forEach((movie) => {
-            if(!this.moviesArray.includes(movie)) {
-                this.moviesArray.push(movie);
-            }
-        });
       })
 
       .catch((err) => {
         console.log('Error', err);
       });
     },
+    getTvSeries() {
+      let textTvSeries = this.searchText.replaceAll(' ', '+');
+
+      let urlTv = this.urlTvSeries + textTvSeries;
+
+      axios.get(urlTv)
+      .then((result) => {
+        this.tvSeries = result.data.results;
+      });
+    }
   }
 }
 </script>

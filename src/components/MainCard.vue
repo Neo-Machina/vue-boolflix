@@ -1,7 +1,7 @@
 <template>
     <div class="album_content">
-        <div>{{ album.title }}</div>
-        <div>{{ album.original_title }}</div>
+        <div>{{ album.title ? album.title : album.name }}</div>
+        <div>{{ album.original_title ? album.original_title : album.original_name }}</div>
         <div>{{ album.original_language }}</div>
         <div>{{ album.vote_average }}</div>
     </div>
@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    name: 'MovieCard',
+    name: 'MainCard',
     props: {
         album: Object
     },

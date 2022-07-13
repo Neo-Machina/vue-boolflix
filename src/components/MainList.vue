@@ -4,20 +4,20 @@
             <div class="col" 
             v-for="albumItem in moviesList"
             :key="albumItem.id">
-                <MovieCard :album="albumItem" />
+                <MainCard :album="albumItem" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import MovieCard from './MovieCard.vue';
+import MainCard from './MainCard.vue';
 
 
 export default {
-    name: 'MoviesList',
+    name: 'MainList',
     components: {
-        MovieCard
+        MainCard
     },
     props: {
         moviesList: Array
