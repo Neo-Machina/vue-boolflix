@@ -30,6 +30,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     margin-left: 20px;
+    padding-bottom: 20px;
 
     .col {
         margin: 20px 25px 0 0;
