@@ -1,13 +1,13 @@
 <template>
-    <div class="container">
+    <section>
         <div class="row">
             <div class="col" 
-            v-for="item in moviesList"
-            :key="item.id">
+                v-for="item in moviesList"
+                :key="item.id">
                 <MainCard :singleItem="item" />
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -20,23 +20,19 @@ export default {
         MainCard
     },
     props: {
-        moviesList: Array
-    },
-    data() {
-        return {
-            
-        }
-    },
-    created() {
-       
-    },
-    methods: {
-        
-        
+        moviesList: Array,
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 20px;
 
+    .col {
+        margin: 20px 25px 0 0;
+    }
+}
 </style>

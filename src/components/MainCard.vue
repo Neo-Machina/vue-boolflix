@@ -1,25 +1,39 @@
 <template>
     <div class="singleItem_content">
-        <div>{{ singleItem.title ? singleItem.title : singleItem.name }}</div>
+        <div class="info_card" :id="singleItem.id" @mouseleave="onMouseLeave()">
+            <div>
+                <span class="bold_text">Title</span>:
+                {{ singleItem.title ? singleItem.title : singleItem.name }}
+            </div>
 
-        <div>{{ singleItem.original_title ? singleItem.original_title : singleItem.original_name }}</div>
+            <div>
+                <span class="bold_text">Original title</span>: 
+                {{ singleItem.original_title ? singleItem.original_title : singleItem.original_name }}
+            </div>
 
-        <img class="flag_language"
-            v-if="languageArray.includes(singleItem.original_language)" 
-            :src="getFlagImg" :alt="singleItem.original_language">
+            <img class="flag_language"
+                v-if="languageArray.includes(singleItem.original_language)" 
+                :src="getFlagImg" :alt="singleItem.original_language">
 
-        <div v-else>{{ singleItem.original_language }}</div>
+            <div v-else>{{ singleItem.original_language }}</div>
 
-        <div>{{ singleItem.vote_average }}</div>
+            <div class="average_vote"> 
+                <span class="bold_text">Vote</span>: 
+                <span class="star_icon">
+                    <font-awesome-icon v-for="(star,index) in 5" :key="index" :icon="getStarsStyle(star)" />
+                </span>
+            </div>
 
-        <img class="poster_item"
-            :src="!singleItem.poster_path ? 'https://eiflixnob.live/assets/general/images/no_poster.jpg' : imageItem" 
-            :alt="singleItem.title ? singleItem.title : singleItem.name">
-        
-        <div class="star_icon">
-            <font-awesome-icon v-for="(star,index) in 5" :key="index" :icon="getStarsStyle(star)" />
+            <div>
+                <span class="bold_text">Overview</span>: 
+                {{ singleItem.overview }}
+            </div>
         </div>
-        
+
+        <img @mouseenter="onMouseEnter()" 
+            class="poster_item" :id="'image_' + singleItem.id"
+            :src="!singleItem.poster_path ? 'https://eiflixnob.live/assets/general/images/no_poster.jpg' : imageItem" 
+            :alt="singleItem.title ? singleItem.title : singleItem.name">   
     </div>
 </template>
 
@@ -62,7 +76,7 @@ export default {
     },
     methods: {
         transformVote() {
-            return Math.ceil((this.singleItem.vote_average * 5) / 10);
+            return Math.round((this.singleItem.vote_average * 5) / 10);
         },
         getStarsStyle(starNumber) {
             if(starNumber <= this.transformVote()) {
@@ -70,27 +84,54 @@ export default {
             } else {
                 return 'fa-regular fa-star'
             }
+        },
+        onMouseEnter() {
+            document.getElementById(this.singleItem.id).style.display = "unset";
+            document.getElementById('image_' + this.singleItem.id).style.filter = "brightness(0.2)";
+        },
+        onMouseLeave() {    
+            document.getElementById(this.singleItem.id).style.display = null;
+            document.getElementById('image_' + this.singleItem.id).style.filter = null;
+
         }
+        
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .singleItem_content {
-    background-color: lightgreen;
-    padding: 10px;
-    margin: 10px;
+    border: 2px solid white;
+    color: white;
+    position: relative;
 
-    .flag_language {
-        width: 25px;
+    .info_card {
+        display: none;
+        position: absolute;
+        padding: 60px 20px;
+        overflow-y: overlay;
+        height: 100%;  
+        z-index: 10; 
+
+        .bold_text {
+            font-weight: bold;
+        }
+
+        .flag_language {
+            width: 25px;
+        }
+
+        .average_vote { 
+            .star_icon {
+                color: gold;
+            }
+        }   
     }
 
     .poster_item {
         width: 342px;
-    }
-
-    .star_icon {
-
+        height: 513px;
+        object-fit: cover;
     }
 }
 </style>

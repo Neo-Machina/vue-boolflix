@@ -3,7 +3,10 @@
     <HeaderComponent @performSearch="startSearch"/>
 
     <main>
+      <h2 v-if="moviesArray.length !== 0" >Movies</h2>
       <MainList :moviesList="moviesArray"/>
+
+      <h2 v-if="tvSeries.length !== 0">Tv Series</h2>
       <MainList :moviesList="tvSeries" />
     </main>
   </div>
@@ -61,6 +64,10 @@ export default {
       axios.get(urlTv)
       .then((result) => {
         this.tvSeries = result.data.results;
+      })
+
+      .catch((err) => {
+        console.log('Error', err);
       });
     }
   }
@@ -68,5 +75,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import './style/common.scss'
+@import './style/common.scss';
 </style>
